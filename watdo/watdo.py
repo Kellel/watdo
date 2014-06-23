@@ -3,8 +3,9 @@ import collections, pickle
 import os.path
 import sys
 import time
+from getpass import getuser
 
-DATA = "/home/kellen/wat/.data"
+DATA = "/home/{}/.wat/wat.dat".format(getuser())
 
 class it(object):
     def __init__(self, what, urgency="NORMAL"):
@@ -20,7 +21,7 @@ def load_it(name):
         with open(name) as f:
             this = pickle.load(f)
             if isinstance(this, collections.deque):
-                return this 
+                return this
             else:
                 print "Whoa dog seems to be corrupted"
                 sys.exit( 1)
@@ -79,7 +80,7 @@ def what_do(args):
             print thing
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(description='A simple tast list.')
     subparsers = parser.add_subparsers()
     what = subparsers.add_parser('wat', help='Wat do?')
@@ -92,3 +93,6 @@ if __name__ == '__main__':
     empty.set_defaults(func=empty_it)
     args = parser.parse_args()
     args.func(args)
+
+if __name__ == '__main__':
+    main()
